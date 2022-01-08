@@ -93,6 +93,11 @@ $(document).ready(function () {
       data: { action: "deleteuser", userId: userId },
       url: "src/php/user.php",
       success: function (response) {
+        if (response == 0) {
+          alert("Error deleting the user!");
+          return;
+        }
+
         $(`#${userId}`).remove();
       },
     });
