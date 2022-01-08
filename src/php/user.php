@@ -34,4 +34,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == "register") {
 	if ($statement->execute()) {
 		echo 'post deleted successfully!';
 	}
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] == "update_user") {
+	$id = $_POST['userdata']['id'];
+
+	$pdo->beginTransaction();
+	try {
+		$sql = "UPDATE user 
+				SET idnumber=:idnumber,
+			    	firstname=:firstname,
+			    	lastname=:lastname,
+			    	gender=:gender,
+			    	bday=:bday,
+			    	program=:program,
+			    	yearlevel=:yearlevel
+				WHERE id=:id";
+		$statement = $pdo->prepare($sql);
+
+		$statement->bindParam(':id', $id, PDO::PARAM_INT);
+		$statement->bindParam(':idnumber', $_POST['userdata']['idnumber']);
+		$statement->bindParam(':firstname', $_POST['userdata']['firstname']);
+		$statement->bindParam(':lastname', $_POST['userdata']['lastname']);	
+		$statement->bindParam(':gender', $_POST['userdata']['gender'], PDO::PARAM_INT);
+		$statement->bindParam(':bday', $_POST['userdata']['bday']);
+		$statement->bindParam(':program', $_POST['userdata']['program']);
+		$statement->bindParam(':yearlevel', $_POST['userdata']['yearlevel'], PDO::PARAM_INT);
+
+		if ($statement->execute()) {
+			echo 'post updated successfully!'; 
+		}
+
+		$pdo->commit();
+	} catch (Exception $e) {
+		$pdo->rollback();
+	}
 }
