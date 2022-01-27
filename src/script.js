@@ -119,6 +119,7 @@ $(document).ready(function () {
       success: function (response) {
         if (response == 0) {
           alert("Error saving the user!");
+          update;
         }
         $("#" + user.id)
           .children("td[data-target=idnumber]")
