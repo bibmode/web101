@@ -97,8 +97,6 @@ $(document).ready(function () {
           alert("Error deleting the user!");
           return;
         }
-
-        $(`#${userId}`).remove();
       },
     });
   }
